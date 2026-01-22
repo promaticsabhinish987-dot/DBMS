@@ -151,5 +151,111 @@ This version is **interview-ready** because you can:
 * Mention primary keys and atomicity clearly.
 * Link everything to **real-life operations** (search, update, delete).
 
+
+
 ---
+
+# 2NF (Second Normal Form)
+
+---
+
+## **Definition:**
+
+A table is in **Second Normal Form (2NF)** if:
+
+1. It is already in **1NF** (no repeating groups, atomic values).
+2. **All non-key columns must fully depend on the entire primary key**, not just part of it.
+
+✅ In simple words: **No partial dependency** of a non-key attribute on part of a composite primary key.
+
+---
+
+## **Why 2NF Exists?**
+
+* In 1NF, sometimes a table has a **composite primary key** (more than one column).
+* Some attributes might depend **only on part of the key**, causing **redundancy and update anomalies**.
+* 2NF **removes partial dependency** by splitting the table into multiple tables.
+
+---
+
+## **Example of Partial Dependency (Problem)**
+
+Suppose we have an **Orders Table**:
+
+| OrderID | BookID | BookTitle     | Quantity | Price |
+| ------- | ------ | ------------- | -------- | ----- |
+| 101     | B01    | Python Basics | 2        | 500   |
+| 101     | B02    | Java Basics   | 1        | 600   |
+| 102     | B01    | Python Basics | 1        | 500   |
+
+**Primary Key:** `(OrderID, BookID)`
+
+**Problem (Partial Dependency):**
+
+* `Quantity` → depends on `(OrderID, BookID)` → ✅ Good
+* `BookTitle` → depends **only on BookID** → ❌ Partial dependency
+* `Price` → depends **only on BookID** → ❌ Partial dependency
+
+**Why is this a problem?**
+
+* Redundancy: Python Basics and Price 500 repeated in multiple rows.
+* Update anomaly: If book title changes, must update multiple rows.
+* Insert anomaly: Cannot add a new book without an order.
+
+---
+
+## **Solution (2NF) – Split Table**
+
+### **1. Orders Table** (Details about order items)
+
+| OrderID | BookID | Quantity |
+| ------- | ------ | -------- |
+| 101     | B01    | 2        |
+| 101     | B02    | 1        |
+| 102     | B01    | 1        |
+
+**Primary Key:** `(OrderID, BookID)`
+
+* `Quantity` depends on both → ✅ OK
+
+### **2. Books Table** (Details about books)
+
+| BookID | BookTitle     | Price |
+| ------ | ------------- | ----- |
+| B01    | Python Basics | 500   |
+| B02    | Java Basics   | 600   |
+
+**Primary Key:** `BookID`
+
+* `BookTitle` and `Price` depend **only on BookID** → ✅ OK
+
+---
+
+## **Key Points About 2NF**
+
+1. Must be in **1NF first**.
+2. Remove **partial dependency** (columns depending only on part of a composite key).
+3. Helps avoid:
+
+   * **Redundancy** (repeating data)
+   * **Update anomalies** (must update same info multiple times)
+   * **Insert anomalies** (cannot add new data without unrelated info)
+4. Usually involves **splitting tables**.
+
+---
+
+### **Quick Memory Tip (2NF)**
+
+* Think: **“All non-key data must depend on the whole key, not part of it.”**
+* If a column depends on **only part of a composite key → split it**.
+
+---
+
+
+
+
+
+
+
+
 

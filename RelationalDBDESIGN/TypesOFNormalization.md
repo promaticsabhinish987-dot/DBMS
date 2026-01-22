@@ -330,7 +330,7 @@ Imagine a table of **books and publishers**:
 ---
 
 
-
+Note :- we also have 4NF,5NF and 3NF advance.
 
 
 

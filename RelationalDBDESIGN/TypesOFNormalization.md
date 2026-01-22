@@ -249,6 +249,84 @@ Suppose we have an **Orders Table**:
 * Think: **“All non-key data must depend on the whole key, not part of it.”**
 * If a column depends on **only part of a composite key → split it**.
 
+
+
+---
+
+# **3NF (Third Normal Form) – Easy Version**
+
+---
+
+## **Definition in Simple Words:**
+
+A table is in **3NF** if:
+
+1. It is already in **2NF**.
+2. **No non-key column depends on another non-key column**.
+
+✅ In other words:
+
+* Every piece of data should depend **directly on the primary key**, not on another column.
+* This avoids **repetition and mistakes**.
+
+---
+
+## **Example**
+
+Imagine a table of **books and publishers**:
+
+| BookID | BookTitle     | Price | Publisher | PublisherAddress |
+| ------ | ------------- | ----- | --------- | ---------------- |
+| B01    | Python Basics | 500   | ABC Pub   | Delhi            |
+| B02    | Java Basics   | 600   | XYZ Pub   | Mumbai           |
+
+**Primary Key:** `BookID`
+
+**Problem (Transitive Dependency):**
+
+* `PublisherAddress` depends on `Publisher`, not on `BookID` → ❌ This is a transitive dependency.
+
+---
+
+## **Solution (3NF)**
+
+**Step 1: Split publisher info into its own table**
+
+### **Books Table**
+
+| BookID | BookTitle     | Price | PublisherID |
+| ------ | ------------- | ----- | ----------- |
+| B01    | Python Basics | 500   | P01         |
+| B02    | Java Basics   | 600   | P02         |
+
+**Step 2: Create Publisher Table**
+
+| PublisherID | Publisher | PublisherAddress |
+| ----------- | --------- | ---------------- |
+| P01         | ABC Pub   | Delhi            |
+| P02         | XYZ Pub   | Mumbai           |
+
+✅ Now:
+
+* Every column depends **directly on the primary key**.
+* No column depends on another non-key column → 3NF achieved.
+
+---
+
+## **Key Points (Easy Words)**
+
+* 3NF = **no “column depends on another column”**.
+* Helps **reduce repetition**, **easier updates**, and **prevents mistakes**.
+* Usually done by **splitting tables** logically.
+
+---
+
+### **Super Simple Memory Trick:**
+
+* 1NF → atomic values
+* 2NF → all columns depend on **whole key**
+* 3NF → all columns depend on **only the key, not another column**
+
 ---
 
 
